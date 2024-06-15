@@ -1,0 +1,8 @@
+Flask
+Flask-Cors
+Flask-SQLAlchemy
+google-auth
+google-cloud-storage
+google-cloud-speech
+google-cloud-texttospeech
+PyJWT
