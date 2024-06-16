@@ -1,7 +1,8 @@
-from flask import request, jsonify
+from flask import request, jsonify, current_app
 from app.routes import file_ops_bp
 from app.services.google_cloud import get_storage_client
 from app.services.jwt_service import verify_custom_token
+
 
 @file_ops_bp.route('/upload', methods=['POST'])
 def upload_document():
@@ -20,7 +21,7 @@ def upload_document():
         return jsonify({'error': 'File required'}), 422
 
     client = get_storage_client()
-    bucket = client.bucket(BUCKET_NAME)
+    bucket = client.bucket(current_app.config['BUCKET_NAME'])
     blob = bucket.blob(f'{email}/{file.filename}')
     blob.upload_from_file(file)
     
@@ -38,7 +39,7 @@ def list_documents():
 
     email = tokenValidationResponse['email']
     client = get_storage_client()
-    bucket = client.bucket(BUCKET_NAME)
+    bucket = client.bucket(current_app.config['BUCKET_NAME'])
     blobs = bucket.list_blobs(prefix=f'{email}/')
     documents = [blob.name.split('/')[-1] for blob in blobs]
     
@@ -61,7 +62,7 @@ def delete_document():
         return jsonify({'error': 'Filename required'}), 422
 
     client = get_storage_client()
-    bucket = client.bucket(BUCKET_NAME)
+    bucket = client.bucket(current_app.config['BUCKET_NAME'])
     blob = bucket.blob(f'{email}/{filename}')
     blob.delete()
     
