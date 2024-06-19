@@ -7,10 +7,11 @@ from app.services.jwt_service import verify_custom_token
 @file_ops_bp.route('/upload', methods=['POST'])
 def upload_document():
     custom_token = request.headers.get('token')
+   
     if not custom_token:
         return jsonify({'error': 'Missing custom token'}), 401
-
     tokenValidationResponse = verify_custom_token(custom_token)
+    
     if 'error' in tokenValidationResponse:
         return jsonify(tokenValidationResponse), 401
 

@@ -30,6 +30,7 @@ def text_to_speech():
 
     data = request.get_json()
     text = data.get('text')
+    
     audio_content = synthesize_speech(text)
     
     return jsonify({'audio_content': audio_content})

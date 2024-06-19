@@ -19,13 +19,11 @@ class User(db.Model):
     deactivated_at = db.Column(db.DateTime)
     deactivated_by = db.Column(db.String(255))
     user_type = db.Column(db.String(255))
-
     login_history = db.relationship('UserLoginHistory', backref='user', lazy=True)
     user_profile = db.relationship('UserProfile', backref='user', lazy=True, uselist=False)
 
 class UserLoginHistory(db.Model):
     __tablename__ = 'user_login_history'
-    
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     login_datetime = db.Column(db.DateTime, default=datetime.utcnow)
@@ -36,7 +34,6 @@ class UserLoginHistory(db.Model):
 
 class UserProfile(db.Model):
     __tablename__ = 'user_profile'
-    
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, unique=True)
     language = db.Column(db.String(255))

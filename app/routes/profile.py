@@ -6,7 +6,7 @@ from app.models import User
 from app.routes import profile_bp
 from app.services.jwt_service import verify_custom_token
 
-@profile_bp.route('/profile', method=['GET'])
+@profile_bp.route('/get_profile', methods=['GET'])
 def get_profile():
     custom_token = request.headers.get('token')
     if not custom_token:
@@ -31,13 +31,13 @@ def get_profile():
         'is_holcim_data': profile.is_holcim_data,
         'is_my_library': profile.is_my_library,
         'is_custom_copilot': profile.is_custom_copilot,
-        'converse_style': profile.converse_style,
-        'custom_instruction': profile.custom_instruction,
+        'temp': profile.converse_style,
+        'context': profile.custom_instruction,
     }
 
     return jsonify(profile_data)
 
-@profile_bp.route('/profile', methods=['PUT'])
+@profile_bp.route('/update_profile', methods=['POST'])
 def update_profile():
     custom_token = request.headers.get('token')
     if not custom_token:
@@ -77,11 +77,11 @@ def update_profile():
     if 'is_custom_copilot' in data:
         profile.is_custom_copilot = data['is_custom_copilot']
 
-    if 'converse_style' in data:
-        profile.converse_style = data['converse_style']
+    if 'temp' in data:
+        profile.converse_style = data['temp']
 
-    if 'custom_instruction' in data:
-        profile.custom_instruction = data['custom_instruction']
+    if 'context' in data:
+        profile.custom_instruction = data['context']
 
     profile.modified_datetime = dt.datetime.utcnow()
     profile.modified_by = 'user'

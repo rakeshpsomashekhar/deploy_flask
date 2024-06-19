@@ -16,7 +16,7 @@ def genai_chat():
     data = request.get_json()
     message = data.get('message')
     temperature = data.get('temperature')
-
+    print(message,temperature)
     if not message or not message.strip() or not temperature:
         return jsonify({'error': 'Invalid input'}), 422
 
