@@ -27,5 +27,5 @@ def create_app():
     
     @app.route('/', methods=['get'])
     def welcome():
-        return jsonify({'custom_token': "welcome to flask app"})
+        return jsonify({'flaskapp': "welcome to flask app"})
     return app
